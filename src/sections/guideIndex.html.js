@@ -8,16 +8,7 @@ function renderMenu(menuArr) {
           <li class="has-submenu">
             <a href="#" class="menu-main" data-idx="${idx}">${item.label}</a>
             <ul class="submenu" style="display:none;">
-              ${item.submenu
-                  .map(
-                      (sub, subIdx) =>
-                          `<li><a href="${
-                              sub.anchor
-                          }" class="submenu-link" data-module="${
-                              sub.module || ""
-                          }">${sub.label}</a></li>`
-                  )
-                  .join("")}
+              ${renderMenu(item.submenu)}
             </ul>
           </li>
         `;
@@ -67,16 +58,33 @@ export function setupGuideMenu() {
     document.querySelectorAll(".submenu-link").forEach((link) => {
         link.addEventListener("click", async function (e) {
             const moduleName = this.dataset.module;
+            // Obtener el label del padre (li.has-submenu > a.menu-main)
+            let label = "";
+            let parentLi = this.closest(".has-submenu");
+            if (parentLi) {
+                const mainLink = parentLi.querySelector(".menu-main");
+                if (mainLink) label = mainLink.textContent.trim();
+            } else {
+                // Si no es submenú, buscar el li > a
+                label = this.textContent.trim();
+            }
+            // Normalizar label para carpeta (puedes ajustar esto si usas números)
+            const labelFolder = label
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/^-+|-+$/g, "");
             if (moduleName) {
                 e.preventDefault();
                 try {
-                    const mod = await import(`./content/${moduleName}.html.js`);
+                    const mod = await import(
+                        `./content/${labelFolder}/${moduleName}.html.js`
+                    );
                     document.querySelector(".guide-content").innerHTML =
                         mod.default;
                 } catch (err) {
                     document.querySelector(
                         ".guide-content"
-                    ).innerHTML = `<p style="color:#c00">No se pudo cargar el contenido: ${moduleName}</p>`;
+                    ).innerHTML = `<p style="color:#c00">No se pudo cargar el contenido: ${labelFolder}/${moduleName}</p>`;
                 }
             }
         });

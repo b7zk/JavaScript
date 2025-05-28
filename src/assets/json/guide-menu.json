@@ -1,14 +1,27 @@
 {
   "menu": [
     {
-      "label": "Concepts",
+      "label": "Theory",
       "submenu": [
-        { "label": "JavaScript Thread", "anchor": "#thread", "module": "thread" },
-        { "label": "Historia", "anchor": "#historia" },
-        { "label": "Características", "anchor": "#caracteristicas" }
+        { "label": "Limitations", "anchor": "#limitations", "module": "limitations" },
+        { "label": "JS Thread", "anchor": "#thread-work", "module": "thread-work" },
+        { "label": "JS Asynchronous?", "anchor": "#asynchronous", "module": "asynchronous" }
       ]
     },
-    { "label": "Conceptos Básicos", "anchor": "#basics" },
-    { "label": "Avanzado", "anchor": "#advanced" }
+    {
+      "label": "Datatypes",
+      "submenu": [
+        {
+          "label": "Numbers",
+          "anchor": "#numbers",
+          "module": "numbers",
+          "submenu": [
+            { "label": "Enteros", "anchor": "#enteros", "module": "enteros" },
+            { "label": "Decimales", "anchor": "#decimales", "module": "decimales" }
+          ]
+        },
+        { "label": "String", "anchor": "#string", "module": "string" }
+      ]
+    } 
   ]
 }

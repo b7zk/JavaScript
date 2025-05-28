@@ -20,12 +20,12 @@
   border-left: 2px solid var(--accent);
   background: none;
   border-radius: 0;
-  font-size: 0.97em;
+  font-size: 0.9em;
 }
 .submenu li {
   margin-bottom: 1.1em;
   margin-left: 20px;
-  font-size: 0.8em;
+  font-size: 1em;
 }
 .submenu li:last-child {
   margin-bottom: 0;
@@ -73,7 +73,7 @@
   color: #fff;
   text-decoration: none;
   font-weight: 500;
-  font-size: 1.1em;
+  font-size: 1.3em;
   transition: color 0.2s;
   display: block;
   text-align: left;
@@ -88,7 +88,22 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  font-size: 1.2em;
 }
+.guide-content h1,
+.guide-content h2,
+.guide-content h3,
+.guide-content h4,
+.guide-content h5,
+.guide-content h6 {
+  width: 100%;
+  text-align: center;
+  font-size: 1.8em;
+  color: var(--accent);
+}
+
 /* Navbar styles */
 .navbar {
   width: 100%;

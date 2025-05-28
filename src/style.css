@@ -1,4 +1,94 @@
 @import url("https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;700&display=swap");
+.has-submenu > .menu-main::after {
+  content: '';
+  font-size: 0.7em;
+  margin-left: 0.5em;
+  color: var(--accent);
+  transition: transform 0.2s;
+  display: inline-block;
+}
+.has-submenu > .menu-main:hover::after {
+  content: '▼';
+}
+.has-submenu.open > .menu-main::after {
+  transform: rotate(-180deg);
+}
+.submenu {
+  margin-left: 5em;
+  margin-top: 0.3em;
+  padding-left: 5.2em;
+  border-left: 2px solid var(--accent);
+  background: none;
+  border-radius: 0;
+  font-size: 0.97em;
+}
+.submenu li {
+  margin-bottom: 1.1em;
+  margin-left: 20px;
+  font-size: 0.8em;
+}
+.submenu li:last-child {
+  margin-bottom: 0;
+}
+
+.guide-index-card {
+  width: 100vw;
+  max-width: 90vw;
+  margin: 2em 0 2em 0;
+  background: var(--primary);
+  border-radius: 1.2em;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10), 0 8px 32px 0 rgba(0,0,0,0.08);
+  border: 2px solid var(--secondary);
+  display: flex;
+  min-height: 80vh;
+  overflow: hidden;
+}
+
+.guide-sidebar {
+  background: var(--back);
+  color: #fff;
+  min-width: 300px;
+  max-width: 350px;
+  padding: 2em 1.2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border-right: 2px solid var(--secondary);
+}
+.guide-sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+.guide-sidebar nav ul li {
+  margin-bottom: 0.5em;
+  text-align: left;
+}
+.guide-sidebar nav ul li:last-child {
+  margin-bottom: 0;
+}
+.guide-sidebar a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.1em;
+  transition: color 0.2s;
+  display: block;
+  text-align: left;
+}
+.guide-sidebar a:hover {
+  color: var(--accent);
+}
+
+.guide-content {
+  flex: 1;
+  padding: 2.5em 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
 /* Navbar styles */
 .navbar {
   width: 100%;
@@ -76,9 +166,10 @@ body {
 }
 
 :root {
-  --primary: #2f323f;
+  --primary: #222325;
   --secondary: #64647c;
   --accent: #c49f3b;
+  --back: #2f323f;
   font-family: "Cascadia Code", system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;

@@ -1,0 +1,62 @@
+import menuData from "../assets/json/guide-menu.json";
+
+function renderMenu(menuArr) {
+    return menuArr
+        .map((item, idx) => {
+            if (item.submenu) {
+                return `
+          <li class="has-submenu">
+            <a href="#" class="menu-main" data-idx="${idx}">${item.label}</a>
+            <ul class="submenu" style="display:none;">
+              ${item.submenu
+                  .map(
+                      (sub) =>
+                          `<li><a href="${sub.anchor}">${sub.label}</a></li>`
+                  )
+                  .join("")}
+            </ul>
+          </li>
+        `;
+            } else {
+                return `<li><a href="${item.anchor || "#"}">${
+                    item.label
+                }</a></li>`;
+            }
+        })
+        .join("");
+}
+
+const html = `
+<div class="guide-index-card">
+  <aside class="guide-sidebar">
+    <nav>
+      <ul id="guide-menu">
+        ${renderMenu(menuData.menu)}
+      </ul>
+    </nav>
+  </aside>
+  <section class="guide-content">
+    <h2>Guía principal</h2>
+    <p>¡Bienvenido a la sección de la guía! Aquí puedes agregar el contenido de tu guía.</p>
+  </section>
+</div>
+
+`;
+
+// Mostrar/ocultar submenú dinámicamente (esto debe ejecutarse tras el render)
+export function setupGuideMenu() {
+    document.querySelectorAll(".menu-main").forEach((el) => {
+        el.addEventListener("click", function (e) {
+            e.preventDefault();
+            const li = this.parentElement;
+            const submenu = li.querySelector(".submenu");
+            if (submenu) {
+                const isOpen = submenu.style.display === "block";
+                submenu.style.display = isOpen ? "none" : "block";
+                li.classList.toggle("open", !isOpen);
+            }
+        });
+    });
+}
+
+export default html;

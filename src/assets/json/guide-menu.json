@@ -1,9 +1,9 @@
 {
   "menu": [
     {
-      "label": "Conceptos",
+      "label": "Concepts",
       "submenu": [
-        { "label": "¿Qué es JavaScript?", "anchor": "#que-es-js" },
+        { "label": "JavaScript Thread", "anchor": "#thread", "module": "thread" },
         { "label": "Historia", "anchor": "#historia" },
         { "label": "Características", "anchor": "#caracteristicas" }
       ]

@@ -10,15 +10,21 @@ function renderMenu(menuArr) {
             <ul class="submenu" style="display:none;">
               ${item.submenu
                   .map(
-                      (sub) =>
-                          `<li><a href="${sub.anchor}">${sub.label}</a></li>`
+                      (sub, subIdx) =>
+                          `<li><a href="${
+                              sub.anchor
+                          }" class="submenu-link" data-module="${
+                              sub.module || ""
+                          }">${sub.label}</a></li>`
                   )
                   .join("")}
             </ul>
           </li>
         `;
             } else {
-                return `<li><a href="${item.anchor || "#"}">${
+                return `<li><a href="${
+                    item.anchor || "#"
+                }" class="submenu-link" data-module="${item.module || ""}">${
                     item.label
                 }</a></li>`;
             }
@@ -54,6 +60,24 @@ export function setupGuideMenu() {
                 const isOpen = submenu.style.display === "block";
                 submenu.style.display = isOpen ? "none" : "block";
                 li.classList.toggle("open", !isOpen);
+            }
+        });
+    });
+    // Manejo de carga dinámica de contenido modular
+    document.querySelectorAll(".submenu-link").forEach((link) => {
+        link.addEventListener("click", async function (e) {
+            const moduleName = this.dataset.module;
+            if (moduleName) {
+                e.preventDefault();
+                try {
+                    const mod = await import(`./content/${moduleName}.html.js`);
+                    document.querySelector(".guide-content").innerHTML =
+                        mod.default;
+                } catch (err) {
+                    document.querySelector(
+                        ".guide-content"
+                    ).innerHTML = `<p style="color:#c00">No se pudo cargar el contenido: ${moduleName}</p>`;
+                }
             }
         });
     });

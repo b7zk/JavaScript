@@ -1,4 +1,4 @@
-import javascriptLogo from "../assets/javascript.svg";
+import javascriptLogo from "../assets/img/javascript.svg";
 export default `<div>
   <div class="logo-guide-row">
     <a

@@ -20,7 +20,15 @@
             { "label": "Decimales", "anchor": "#decimales", "module": "decimales", "parentModule": "datatypes" }
           ]
         },
-        { "label": "String", "anchor": "#string", "module": "string" }
+        { "label": "String", "anchor": "#string", "module": "string", "submenu": [
+          { "label": "String Methods", "anchor": "#string-methods", "module": "string-methods", "parentModule": "datatypes" },
+          { "label": "Template Literals", "anchor": "#template-literals", "module": "template-literals", "parentModule": "datatypes" }
+        ] },
+        { "label": "Boolean", "anchor": "#boolean", "module": "boolean" },
+        { "label": "Null & Undefined", "anchor": "#null-undefined", "module": "null-undefined" },
+        { "label": "Symbol", "anchor": "#symbol", "module": "symbol" },
+        { "label": "BigInt", "anchor": "#bigint", "module": "bigint" }
+        
       ]
     } 
   ]

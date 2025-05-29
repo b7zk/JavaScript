@@ -54,44 +54,59 @@ const html = `
 
 // Mostrar/ocultar submenú dinámicamente (esto debe ejecutarse tras el render)
 export function setupGuideMenu() {
+    // Usar import.meta.glob para soportar rutas anidadas con Vite
+    const modules = import.meta.glob("./content/**/*.html.js");
     document.querySelectorAll(".menu-main").forEach((el) => {
         el.addEventListener("click", async function (e) {
             e.preventDefault();
             const li = this.parentElement;
             const submenu = li.querySelector(".submenu");
-            let label = this.textContent.trim();
-            let folderPath = label
-                .toLowerCase()
-                .replace(/[^a-z0-9\/]+/g, "-")
-                .replace(/(\/-+|^-+|-+$)/g, "");
+            let pathParts = [];
+            let currentLi = li;
+            while (currentLi) {
+                // Buscar solo el primer hijo .menu-main (no usar selector de hijo directo)
+                const mainLink = currentLi.querySelector(".menu-main");
+                if (mainLink) pathParts.unshift(mainLink.textContent.trim());
+                currentLi = currentLi.parentElement
+                    ? currentLi.parentElement.closest("li.has-submenu")
+                    : null;
+            }
+            let folderPath = pathParts
+                .map((p) =>
+                    p
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]+/g, "-")
+                        .replace(/^-+|-+$/g, "")
+                )
+                .join("/");
+            // Desplegar/cerrar submenú si existe
             if (submenu) {
                 const isOpen = submenu.style.display === "block";
                 submenu.style.display = isOpen ? "none" : "block";
                 li.classList.toggle("open", !isOpen);
-                // Siempre renderiza la página del menú principal al hacer click, esté abierto o cerrado
-                try {
-                    const mod = await import(
-                        `./content/${folderPath}/${folderPath}.html.js`
-                    );
-                    console.log(mod);
+            }
+            // Renderizar siempre el archivo correspondiente al menú principal
+            const fileName = pathParts[pathParts.length - 1]
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/^-+|-+$/g, "");
+            const route = `./content/${folderPath}/${fileName}.html.js`;
+            console.log("Ruta del archivo:", route);
 
+            if (modules[route]) {
+                try {
+                    const mod = await modules[route]();
                     document.querySelector(".guide-content").innerHTML =
                         mod.default;
                 } catch (err) {
-                    // No mostrar error si solo se quiere abrir/cerrar el submenú
+                    document.querySelector(
+                        ".guide-content"
+                    ).innerHTML = `<p style=\"color:#c00\">No se pudo cargar el contenido: ${route}</p>`;
                 }
             } else {
-                // Si no hay submenú, renderiza normalmente
-                try {
-                    const mod = await import(
-                        `./content/${folderPath}/${folderPath}.html.js`
-                    );
-                    console.log(mod);
-                    document.querySelector(".guide-content").innerHTML =
-                        mod.default;
-                } catch (err) {
-                    // No mostrar error si solo se quiere abrir/cerrar el submenú
-                }
+                document.querySelector(
+                    ".guide-content"
+                ).innerHTML = `<p style=\"color:#c00\">No se encontró el archivo: ${route}</p>`;
             }
         });
     });

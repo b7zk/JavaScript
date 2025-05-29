@@ -16,8 +16,8 @@
           "anchor": "#numbers",
           "module": "numbers",
           "submenu": [
-            { "label": "Enteros", "anchor": "#enteros", "module": "enteros" },
-            { "label": "Decimales", "anchor": "#decimales", "module": "decimales" }
+            { "label": "Enteros", "anchor": "#enteros", "module": "enteros", "parentModule": "datatypes" },
+            { "label": "Decimales", "anchor": "#decimales", "module": "decimales", "parentModule": "datatypes" }
           ]
         },
         { "label": "String", "anchor": "#string", "module": "string" }

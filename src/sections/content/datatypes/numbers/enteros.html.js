@@ -1,3 +1,3 @@
 export default `
-<h1>Numbers</h1>
+<h1>Enteros</h1>
 `;

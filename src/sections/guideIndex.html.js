@@ -43,14 +43,40 @@ const html = `
 // Mostrar/ocultar submenú dinámicamente (esto debe ejecutarse tras el render)
 export function setupGuideMenu() {
     document.querySelectorAll(".menu-main").forEach((el) => {
-        el.addEventListener("click", function (e) {
+        el.addEventListener("click", async function (e) {
             e.preventDefault();
             const li = this.parentElement;
             const submenu = li.querySelector(".submenu");
+            let label = this.textContent.trim();
+            let folderPath = label
+                .toLowerCase()
+                .replace(/[^a-z0-9\/]+/g, "-")
+                .replace(/(\/-+|^-+|-+$)/g, "");
             if (submenu) {
                 const isOpen = submenu.style.display === "block";
                 submenu.style.display = isOpen ? "none" : "block";
                 li.classList.toggle("open", !isOpen);
+                // Siempre renderiza la página del menú principal al hacer click, esté abierto o cerrado
+                try {
+                    const mod = await import(
+                        `./content/${folderPath}/${folderPath}.html.js`
+                    );
+                    document.querySelector(".guide-content").innerHTML =
+                        mod.default;
+                } catch (err) {
+                    // No mostrar error si solo se quiere abrir/cerrar el submenú
+                }
+            } else {
+                // Si no hay submenú, renderiza normalmente
+                try {
+                    const mod = await import(
+                        `./content/${folderPath}/${folderPath}.html.js`
+                    );
+                    document.querySelector(".guide-content").innerHTML =
+                        mod.default;
+                } catch (err) {
+                    // No mostrar error si solo se quiere abrir/cerrar el submenú
+                }
             }
         });
     });
